@@ -1,9 +1,11 @@
 """Run with: pip install fastapi uvicorn; uvicorn app:app --reload"""
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel,Field
 from pathlib import Path
 import json
 app=FastAPI(title="Internship Assistant")
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 DB=Path("applications.json")
 def load():return json.loads(DB.read_text()) if DB.exists() else []
 def save(rows):DB.write_text(json.dumps(rows,indent=2))
